@@ -19,9 +19,9 @@ export const CommentsHeader = styled.header`
 `;
 
 export const CommentsList = styled.ul`
-  overflow: hidden;
+  
 `;
 
-export const CommentsItem = styled.ul`
-  overflow: hidden;
+export const CommentsItem = styled.li`
+  
 `;

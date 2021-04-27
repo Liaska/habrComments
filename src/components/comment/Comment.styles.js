@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 export const CommentContainer = styled.div`
   padding-left: 20px;
+  position: relative;
 `;
 
 export const CommentCollapse = styled.span`
@@ -27,6 +28,19 @@ export const CommentHeader = styled.div`
 export const CommentAuthor = styled.a`
   display: inline-flex;
   align-items: center;
+`;
+
+export const CommentLevel = styled.span`
+  display: none;
+  color: #a2c5d5;
+  position: absolute;
+  top: 9px;
+  left: 0;
+  transform: translateX(-100%);
+
+  ${CommentContainer}:hover > & {
+    display: block;
+  }
 `;
 
 export const CommentMessage = styled.div`

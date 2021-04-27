@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const LikesDislikes = () => {
+import { LikesDislikesContainer, DislikeButton, LikesDislikesAmount, LikeButton } from './LikesDislikes.styled';
+
+const LikesDislikes = ({ likesCount }) => {
+  const [likesCountState, setLikesCountState] = useState(likesCount || 0);
   return (
     <LikesDislikesContainer>
-      <Dislike></Dislike>
-      <LikesDislikesAmount></LikesDislikesAmount>
-      <Like></Like>
+      <DislikeButton onClick={() => setLikesCountState(likesCountState - 1)}>-</DislikeButton>
+      <LikesDislikesAmount>{likesCountState}</LikesDislikesAmount>
+      <LikeButton onClick={() => setLikesCountState(likesCountState + 1)}>+</LikeButton>
     </LikesDislikesContainer>
   );
 };
