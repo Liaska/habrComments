@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { highlightAuthor } from '../../redux/comments/comments.actions';
+
 import {
   AsideBody,
   AsideContainer,
@@ -9,7 +11,7 @@ import {
   AsideList,
 } from './CommentsAside.styles';
 
-const CommentsAside = ({ commentsAuthors }) => {
+const CommentsAside = ({ commentsAuthors, highlightAuthor }) => {
   return (
     <AsideContainer>
       <AsideHeader>Комментаторы</AsideHeader>
@@ -17,7 +19,7 @@ const CommentsAside = ({ commentsAuthors }) => {
         <AsideList>
           {Object.entries(commentsAuthors).map(([author, messages], index) => {
             return (
-              <AsideItem key={index}>
+              <AsideItem key={index} onClick={() => highlightAuthor(author)}>
                 Автор - {author} <br />
                 Количество сообщений - {messages.length}
               </AsideItem>
@@ -33,4 +35,8 @@ const mapStateToProps = ({ comments: { commentsAuthors } }) => ({
   commentsAuthors,
 });
 
-export default connect(mapStateToProps)(CommentsAside);
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  highlightAuthor: (author) => dispatch(highlightAuthor(author)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentsAside);

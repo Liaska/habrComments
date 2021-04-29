@@ -5,6 +5,8 @@ const INITIAL_STATE = {
   commentsCount: 0,
   commentsAuthors: {},
   commentsLoading: false,
+  highlightedAuthor: null,
+  openedAnswerForm: null
 };
 
 const commentsReducer = (state = INITIAL_STATE, action) => {
@@ -52,6 +54,16 @@ const commentsReducer = (state = INITIAL_STATE, action) => {
             ? [...state.commentsAuthors[action.payload.author], action.payload.message]
             : [action.payload.message],
         },
+      };
+    case CommentsTypes.HIGHLIGHT_AUTHOR:
+      return {
+        ...state,
+        highlightedAuthor: state.highlightedAuthor === action.payload ? null : action.payload,
+      };
+    case CommentsTypes.OPEN_ANSWER_FORM:
+      return {
+        ...state,
+        openedAnswerForm: action.payload,
       };
     default:
       return state;

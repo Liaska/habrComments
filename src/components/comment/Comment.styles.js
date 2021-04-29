@@ -11,7 +11,7 @@ export const CommentCollapse = styled.span`
   position: absolute;
   left: 3px;
   line-height: 8px;
-  top: 8px;
+  top: 18px;
   z-index: 9;
   font-weight: 700;
   color: #548eaa;
@@ -39,7 +39,7 @@ export const CommentLevel = styled.span`
   display: none;
   color: #a2c5d5;
   position: absolute;
-  top: 4px;
+  top: 14px;
   left: 26px;
   letter-spacing: 15px;
   transform: translateX(-100%);
@@ -56,7 +56,6 @@ export const CommentMessage = styled.div`
   font-size: 15px;
   line-height: 1.46;
   overflow: hidden;
-  margin-bottom: 10px;
 `;
 
 export const ShowComment = styled.div`
@@ -64,4 +63,19 @@ export const ShowComment = styled.div`
   color: #548eaa;
   cursor: pointer;
   margin-bottom: 10px;
+`;
+
+export const CommentWrapper = styled.div`
+  position: relative;
+  padding: 10px 20px;
+  margin-left: -20px;
+  margin-bottom: 10px;
+
+  &.highlightedAuthor {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  &:hover {
+    background-color: rgba(255, 240, 140, 0.1);
+  }
 `;

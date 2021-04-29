@@ -37,6 +37,16 @@ export const fetchCommentsStartAsync = () => {
     dispatch(fetchCommentsStart());
     setTimeout(() => {
       dispatch(fetchCommentsSuccess(COMMENTS_DATA));
-    }, 2000);
+    }, 0);
   };
 };
+
+export const highlightAuthor = (author) => ({
+  type: CommentsTypes.HIGHLIGHT_AUTHOR,
+  payload: author,
+});
+
+export const openAnswerForm = (answerDom) => ({
+  type: CommentsTypes.OPEN_ANSWER_FORM,
+  payload: answerDom,
+});

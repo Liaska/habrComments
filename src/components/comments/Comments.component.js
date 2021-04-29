@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Comment from '../comment/Comment.component';
@@ -9,13 +9,17 @@ import { CommentsContainer, CommentsHeader, CommentsList } from './Comments.styl
 
 const LoadingCommentsList = Loading(CommentsList);
 
-const Comments = ({ commentsCount, commentsCollection, fetchCommentsStartAsync, commentsLoading}) => {
+const Comments = ({
+  commentsCount,
+  commentsCollection,
+  fetchCommentsStartAsync,
+  commentsLoading,
+  highlightedAuthor,
+}) => {
 
   useEffect(() => {
     fetchCommentsStartAsync();
   }, []);
-
-  console.log('RENDER ');
 
   return (
     <CommentsContainer>
@@ -25,18 +29,28 @@ const Comments = ({ commentsCount, commentsCollection, fetchCommentsStartAsync, 
         </h2>
       </CommentsHeader>
       <LoadingCommentsList isLoading={commentsLoading}>
-        {commentsCollection && commentsCollection.map((comment) => {
-          return <Comment key={comment.id} {...comment} level={1}></Comment>;
-        })}
+        {commentsCollection &&
+          commentsCollection.map((comment) => {
+            return (
+              <Comment
+                key={comment.id}
+                {...comment}
+                highlightedAuthor={highlightedAuthor}
+                level={1}></Comment>
+            );
+          })}
       </LoadingCommentsList>
     </CommentsContainer>
   );
 };
 
-const mapStateToProps = (state) => ({
-  commentsCount: state.comments.commentsCount,
-  commentsCollection: state.comments.commentsCollection,
-  commentsLoading: state.comments.commentsLoading
+const mapStateToProps = ({
+  comments: { commentsCount, commentsLoading, commentsCollection, highlightedAuthor },
+}) => ({
+  commentsCount,
+  commentsCollection,
+  commentsLoading,
+  highlightedAuthor,
 });
 
 const mapDispatchToProps = (dispatch) => ({

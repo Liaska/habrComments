@@ -4,6 +4,7 @@ import { LikesDislikesContainer, DislikeButton, LikesDislikesAmount, LikeButton 
 
 const LikesDislikes = ({ likesCount }) => {
   const [likesCountState, setLikesCountState] = useState(likesCount || 0);
+  
   return (
     <LikesDislikesContainer>
       <DislikeButton onClick={() => setLikesCountState(likesCountState - 1)}>-</DislikeButton>
