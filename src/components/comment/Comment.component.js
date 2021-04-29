@@ -6,7 +6,7 @@ import {
   addAuthor,
   commentsCountIncrement,
   openAnswerForm,
-} from '../../redux/comments/comments.actions';
+} from '../../redux/comments/commentsSlice';
 
 import {
   CommentAuthor,
@@ -41,7 +41,7 @@ const Comment = ({
 
   useEffect(() => {
     commentsCountIncrement();
-    addAuthor(author, message);
+    addAuthor({author, message});
   }, []);
 
   const intervalRef = useRef();
@@ -60,11 +60,10 @@ const Comment = ({
           <CommentAnswer commentAnswerSubmit={commentAnswerSubmit}></CommentAnswer>
         </CommentWrapper>
         {newComments.length > 0 &&
-          newComments.map((newComment) => {
-            console.log(newComments, newComment);
+          newComments.map((newComment,index) => {
             return (
               <Comment
-                key={newComment[1]}
+                key={index}
                 highlightedAuthor={highlightedAuthor}
                 commentsCountIncrement={commentsCountIncrement}
                 addAuthor={addAuthor}

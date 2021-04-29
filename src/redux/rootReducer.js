@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import commentsReducer from "./comments/comments.reducer"
+import commentsReducer from "./comments/commentsSlice"
 
 const rootReducer = combineReducers({
   comments: commentsReducer

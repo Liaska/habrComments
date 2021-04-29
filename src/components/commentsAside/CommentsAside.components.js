@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { highlightAuthor } from '../../redux/comments/comments.actions';
+import { highlightAuthor } from '../../redux/comments/commentsSlice'
 
 import {
   AsideBody,

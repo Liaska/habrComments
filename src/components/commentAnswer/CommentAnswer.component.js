@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { openAnswerForm } from '../../redux/comments/comments.actions';
+import { openAnswerForm } from '../../redux/comments/commentsSlice';
 
 import { AnswerButton, AnswerContainer, AnswerForm } from './CommentAnswer.styles';
 

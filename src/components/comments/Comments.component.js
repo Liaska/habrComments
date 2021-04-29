@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Comment from '../comment/Comment.component';
 import Loading from '../loading/Loading.component';
-import { fetchCommentsStartAsync } from '../../redux/comments/comments.actions';
+import { fetchCommentsStartAsync } from '../../redux/comments/commentsSlice';
 
 import { CommentsContainer, CommentsHeader, CommentsList } from './Comments.styles';
 
