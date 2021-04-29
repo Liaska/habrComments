@@ -7,7 +7,7 @@ const LikesDislikes = ({ likesCount }) => {
   return (
     <LikesDislikesContainer>
       <DislikeButton onClick={() => setLikesCountState(likesCountState - 1)}>-</DislikeButton>
-      <LikesDislikesAmount>{likesCountState}</LikesDislikesAmount>
+      <LikesDislikesAmount likesCountState={likesCountState}>{likesCountState}</LikesDislikesAmount>
       <LikeButton onClick={() => setLikesCountState(likesCountState + 1)}>+</LikeButton>
     </LikesDislikesContainer>
   );

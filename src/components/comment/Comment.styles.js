@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const CommentContainer = styled.div`
   padding-left: 20px;
@@ -9,13 +9,18 @@ export const CommentCollapse = styled.span`
   display: none;
   cursor: pointer;
   position: absolute;
-  left: -17px;
+  left: 3px;
   line-height: 8px;
-  top: 7px;
+  top: 8px;
   z-index: 9;
-  padding-left: 17px;
   font-weight: 700;
   color: #548eaa;
+  font-size: 9px;
+  background-color: white;
+
+  ${CommentContainer}:hover > & {
+    display: block;
+  }
 `;
 
 export const CommentHeader = styled.div`
@@ -34,9 +39,12 @@ export const CommentLevel = styled.span`
   display: none;
   color: #a2c5d5;
   position: absolute;
-  top: 9px;
-  left: 0;
+  top: 4px;
+  left: 26px;
+  letter-spacing: 15px;
   transform: translateX(-100%);
+  min-width: 250px;
+  text-align: right;
 
   ${CommentContainer}:hover > & {
     display: block;
@@ -48,4 +56,12 @@ export const CommentMessage = styled.div`
   font-size: 15px;
   line-height: 1.46;
   overflow: hidden;
+  margin-bottom: 10px;
+`;
+
+export const ShowComment = styled.div`
+  font-weight: 700;
+  color: #548eaa;
+  cursor: pointer;
+  margin-bottom: 10px;
 `;

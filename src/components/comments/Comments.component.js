@@ -1,28 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import Comment, { CommentInComments } from '../comment/Comment.component';
-import Loading from '../loading/Loading.component';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 
-import COMMENTS_DATA from './Comments.data';
+import Comment from '../comment/Comment.component';
+import Loading from '../loading/Loading.component';
+import { fetchCommentsStartAsync } from '../../redux/comments/comments.actions';
 
 import { CommentsContainer, CommentsHeader, CommentsList } from './Comments.styles';
 
 const LoadingCommentsList = Loading(CommentsList);
 
-const Comments = () => {
-  const [loadingComments, setLoadingComments] = useState(true);
-  const [commentsCount, setCommentsCount] = useState(0);
-  const [commentsData, setCommentsData] = useState([]);
+const Comments = ({ commentsCount, commentsCollection, fetchCommentsStartAsync, commentsLoading}) => {
 
   useEffect(() => {
-    setTimeout(() => {
-      setCommentsData(COMMENTS_DATA);
-      setCommentsCount(COMMENTS_DATA.length);
-    }, 200);
+    fetchCommentsStartAsync();
   }, []);
 
-  useEffect(() => {
-    setLoadingComments(false);
-  }, [commentsData]);
+  console.log('RENDER ');
 
   return (
     <CommentsContainer>
@@ -31,13 +24,23 @@ const Comments = () => {
           Комментарии <span>{commentsCount}</span>
         </h2>
       </CommentsHeader>
-      <LoadingCommentsList isLoading={loadingComments}>
-        {commentsData.map((comment) => {
-          return <Comment key={comment.id} {...comment} level={0}></Comment>;
+      <LoadingCommentsList isLoading={commentsLoading}>
+        {commentsCollection && commentsCollection.map((comment) => {
+          return <Comment key={comment.id} {...comment} level={1}></Comment>;
         })}
       </LoadingCommentsList>
     </CommentsContainer>
   );
 };
 
-export default Comments;
+const mapStateToProps = (state) => ({
+  commentsCount: state.comments.commentsCount,
+  commentsCollection: state.comments.commentsCollection,
+  commentsLoading: state.comments.commentsLoading
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchCommentsStartAsync: () => dispatch(fetchCommentsStartAsync()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);

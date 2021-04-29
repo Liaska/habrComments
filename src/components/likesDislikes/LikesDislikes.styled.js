@@ -29,7 +29,7 @@ export const DislikeButton = styled.button`
 `;
 
 export const LikesDislikesAmount = styled.span`
-  color: #6c9007;
+  color: ${props => props.likesCountState >= 0 ? '#6c9007' : 'red'} ;
   display: flex;
   align-items: center;
   justify-content: center;
