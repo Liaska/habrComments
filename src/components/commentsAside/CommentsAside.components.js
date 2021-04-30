@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { highlightAuthor } from '../../redux/authors/authorsSlice'
+import { highlightAuthor } from '../../redux/authors/authorsSlice.ts'
 
 import {
   AsideBody,

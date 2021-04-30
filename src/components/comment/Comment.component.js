@@ -5,7 +5,7 @@ import CommentAnswer from '../commentAnswer/CommentAnswer.component';
 
 import { commentsCountIncrement, openAnswerForm } from '../../redux/comments/commentsSlice';
 
-import { addAuthor } from '../../redux/authors/authorsSlice';
+import { addAuthor } from '../../redux/authors/authorsSlice.ts';
 
 import {
   CommentAuthor,

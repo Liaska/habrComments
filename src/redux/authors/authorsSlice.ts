@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export const authorsSlice = createSlice({
   name: 'authors',
@@ -7,7 +7,7 @@ export const authorsSlice = createSlice({
     highlightedAuthor: null,
   },
   reducers: {
-    addAuthor: (state, action) => {
+    addAuthor: (state, action: PayloadAction<{ author: string; message: string }>) => {
       state.authors[action.payload.author] = state.authors[action.payload.author]
         ? [...state.authors[action.payload.author], action.payload.message]
         : [action.payload.message];
