@@ -4,7 +4,7 @@ import COMMENTS_DATA from './comments.data';
 
 export const fetchCommentsStartAsync = createAsyncThunk(
   'users/fetchCommentsStartAsync',
-  async () =>
+  () =>
     new Promise((resolve) => {
       setTimeout(() => {
         resolve(COMMENTS_DATA);
@@ -17,9 +17,7 @@ export const commentsSlice = createSlice({
   initialState: {
     commentsCollection: null,
     commentsCount: 0,
-    commentsAuthors: {},
     commentsLoading: false,
-    highlightedAuthor: null,
     openedAnswerForm: null,
     errorMessage: '',
   },
@@ -34,9 +32,6 @@ export const commentsSlice = createSlice({
       state.commentsAuthors[action.payload.author] = state.commentsAuthors[action.payload.author]
         ? [...state.commentsAuthors[action.payload.author], action.payload.message]
         : [action.payload.message];
-    },
-    highlightAuthor: (state, action) => {
-      state.highlightedAuthor = state.highlightedAuthor === action.payload ? null : action.payload;
     },
     openAnswerForm: (state, action) => {
       state.openedAnswerForm = action.payload;
@@ -60,7 +55,6 @@ export const commentsSlice = createSlice({
 export const {
   addAuthor,
   commentsCountDecrement,
-  highlightAuthor,
   commentsCountIncrement,
   openAnswerForm,
 } = commentsSlice.actions;

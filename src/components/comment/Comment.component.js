@@ -2,11 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import LikesDislikes from '../likesDislikes/LikesDislikes.component';
 import CommentAnswer from '../commentAnswer/CommentAnswer.component';
-import {
-  addAuthor,
-  commentsCountIncrement,
-  openAnswerForm,
-} from '../../redux/comments/commentsSlice';
+
+import { commentsCountIncrement, openAnswerForm } from '../../redux/comments/commentsSlice';
+
+import { addAuthor } from '../../redux/authors/authorsSlice';
 
 import {
   CommentAuthor,
@@ -29,6 +28,8 @@ const Comment = ({
   addAuthor,
   highlightedAuthor,
 }) => {
+  const [deleted, setDeleted] = useState(false);
+
   const [showComments, setShowComment] = useState(true);
   const [newComments, setNewComments] = useState([]);
 
@@ -41,7 +42,7 @@ const Comment = ({
 
   useEffect(() => {
     commentsCountIncrement();
-    addAuthor({author, message});
+    addAuthor({ author, message });
   }, []);
 
   const intervalRef = useRef();
@@ -60,7 +61,7 @@ const Comment = ({
           <CommentAnswer commentAnswerSubmit={commentAnswerSubmit}></CommentAnswer>
         </CommentWrapper>
         {newComments.length > 0 &&
-          newComments.map((newComment,index) => {
+          newComments.map((newComment, index) => {
             return (
               <Comment
                 key={index}
@@ -96,8 +97,8 @@ const Comment = ({
   );
 };
 
-const mapStateToProps = ({ comments: { openedAnswerForm } }) => ({
-  openedAnswerForm,
+const mapStateToProps = (state) => ({
+  highlightedAuthor: state.authors.highlightedAuthor,
 });
 
 const mapDispatchToProps = (dispatch) => ({

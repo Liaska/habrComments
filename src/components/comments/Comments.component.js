@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Comment from '../comment/Comment.component';
 import Loading from '../loading/Loading.component';
+
+import {
+  selectCommentsCollection,
+  selectCommentsCount,
+  selectCommentsLoading,
+} from '../../redux/comments/comments.selects';
+
 import { fetchCommentsStartAsync } from '../../redux/comments/commentsSlice';
 
 import { CommentsContainer, CommentsHeader, CommentsList } from './Comments.styles';
@@ -14,7 +21,6 @@ const Comments = ({
   commentsCollection,
   fetchCommentsStartAsync,
   commentsLoading,
-  highlightedAuthor,
 }) => {
 
   useEffect(() => {
@@ -35,7 +41,6 @@ const Comments = ({
               <Comment
                 key={comment.id}
                 {...comment}
-                highlightedAuthor={highlightedAuthor}
                 level={1}></Comment>
             );
           })}
@@ -44,14 +49,13 @@ const Comments = ({
   );
 };
 
-const mapStateToProps = ({
-  comments: { commentsCount, commentsLoading, commentsCollection, highlightedAuthor },
-}) => ({
-  commentsCount,
-  commentsCollection,
-  commentsLoading,
-  highlightedAuthor,
-});
+const mapStateToProps = (state) => {
+  return {
+    commentsCount: selectCommentsCount(state, state.comments),
+    commentsCollection: selectCommentsCollection(state, state.comments),
+    commentsLoading: selectCommentsLoading(state, state.comments),
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   fetchCommentsStartAsync: () => dispatch(fetchCommentsStartAsync()),

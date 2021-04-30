@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { highlightAuthor } from '../../redux/comments/commentsSlice'
+import { highlightAuthor } from '../../redux/authors/authorsSlice'
 
 import {
   AsideBody,
@@ -11,13 +11,13 @@ import {
   AsideList,
 } from './CommentsAside.styles';
 
-const CommentsAside = ({ commentsAuthors, highlightAuthor }) => {
+const CommentsAside = ({ authors, highlightAuthor }) => {
   return (
     <AsideContainer>
       <AsideHeader>Комментаторы</AsideHeader>
       <AsideBody>
         <AsideList>
-          {Object.entries(commentsAuthors).map(([author, messages], index) => {
+          {Object.entries(authors).map(([author, messages], index) => {
             return (
               <AsideItem key={index} onClick={() => highlightAuthor(author)}>
                 Автор - {author} <br />
@@ -31,8 +31,8 @@ const CommentsAside = ({ commentsAuthors, highlightAuthor }) => {
   );
 };
 
-const mapStateToProps = ({ comments: { commentsAuthors } }) => ({
-  commentsAuthors,
+const mapStateToProps = ({ authors: { authors } }) => ({
+  authors,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
