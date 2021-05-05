@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { highlightAuthor } from '../../redux/authors/authorsSlice.ts'
+import { highlightAuthor } from '../../redux/comments/commentsSlice'
 
 import {
   AsideBody,
@@ -31,7 +31,7 @@ const CommentsAside = ({ authors, highlightAuthor }) => {
   );
 };
 
-const mapStateToProps = ({ authors: { authors } }) => ({
+const mapStateToProps = ({ comments: { authors } }) => ({
   authors,
 });
 

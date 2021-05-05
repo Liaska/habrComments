@@ -10,7 +10,7 @@ import {
   selectCommentsLoading,
 } from '../../redux/comments/comments.selects';
 
-import { fetchCommentsStartAsync } from '../../redux/comments/commentsSlice';
+import { clearCollection, fetchCommentsStartAsync } from '../../redux/comments/commentsSlice';
 
 import { CommentsContainer, CommentsHeader, CommentsList } from './Comments.styles';
 
@@ -21,10 +21,15 @@ const Comments = ({
   commentsCollection,
   fetchCommentsStartAsync,
   commentsLoading,
+  clearCollection,
 }) => {
-
   useEffect(() => {
-    fetchCommentsStartAsync();
+    if (!commentsCollection) {
+      fetchCommentsStartAsync();
+    }
+    return () => {
+      clearCollection();
+    };
   }, []);
 
   return (
@@ -37,12 +42,7 @@ const Comments = ({
       <LoadingCommentsList isLoading={commentsLoading}>
         {commentsCollection &&
           commentsCollection.map((comment) => {
-            return (
-              <Comment
-                key={comment.id}
-                {...comment}
-                level={1}></Comment>
-            );
+            return <Comment key={comment.id} {...comment} level={1}></Comment>;
           })}
       </LoadingCommentsList>
     </CommentsContainer>
@@ -59,6 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchCommentsStartAsync: () => dispatch(fetchCommentsStartAsync()),
+  clearCollection: () => dispatch(clearCollection()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comments);

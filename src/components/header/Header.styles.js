@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -19,7 +20,7 @@ export const HeaderNav = styled.nav`
   height: 50px;
 `;
 
-export const HeaderNavItem = styled.a`
+export const HeaderNavItem = styled(Link)`
   display: flex;
   align-items: center;
   cursor: pointer;

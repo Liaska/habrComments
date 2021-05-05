@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import LikesDislikes from '../likesDislikes/LikesDislikes.component';
 import CommentAnswer from '../commentAnswer/CommentAnswer.component';
 
-import { commentsCountIncrement, openAnswerForm } from '../../redux/comments/commentsSlice';
-
-import { addAuthor } from '../../redux/authors/authorsSlice.ts';
+import {
+  commentsCountIncrement,
+  openAnswerForm,
+  addAuthor,
+} from '../../redux/comments/commentsSlice';
 
 import {
   CommentAuthor,
@@ -28,8 +30,6 @@ const Comment = ({
   addAuthor,
   highlightedAuthor,
 }) => {
-  const [deleted, setDeleted] = useState(false);
-
   const [showComments, setShowComment] = useState(true);
   const [newComments, setNewComments] = useState([]);
 
@@ -98,7 +98,7 @@ const Comment = ({
 };
 
 const mapStateToProps = (state) => ({
-  highlightedAuthor: state.authors.highlightedAuthor,
+  highlightedAuthor: state.comments.highlightedAuthor,
 });
 
 const mapDispatchToProps = (dispatch) => ({
