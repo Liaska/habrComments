@@ -38,6 +38,22 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+export const convertUserSnapshotToMap = (users) => {
+  const transformedUsers = users.docs.map((doc) => {
+    const { displayName, email } = doc.data();
+   
+    return {
+      displayName,
+      email,
+    };
+  });
+
+  return transformedUsers.reduce((accumulator, collection) => {
+    accumulator.push(collection);
+    return accumulator;
+  }, []);
+};
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 

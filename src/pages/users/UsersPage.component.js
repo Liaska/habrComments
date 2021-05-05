@@ -1,13 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { selectUsers } from '../../redux/user/user.select';
 
-import {} from "./UsersPage.styles"
+import { fetchUsers } from '../../redux/user/userSlice';
+import UserCard from '../../components/userCard/UserCard.component';
 
-const UsersPage = () => {
+import {} from './UsersPage.styles';
+
+const UsersPage = ({ users, fetchUsers }) => {
+  useEffect(() => {
+    fetchUsers();
+    return () => {};
+  }, []);
+
   return (
-    <div>
-      
+    <div>s
+      {users.map((user) => {
+          console.log(user)
+          return (<UserCard key={user.email} email={user.email} displayName={user.displayName}></UserCard>);
+        })}
     </div>
   );
-}
+};
 
-export default UsersPage;
+const mapStateToProps = (state) => {
+  return {
+    users: selectUsers(state, state.users),
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchUsers: () => dispatch(fetchUsers()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);

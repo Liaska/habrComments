@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import COMMENTS_DATA from './comments.data';
 
 export const fetchCommentsStartAsync = createAsyncThunk(
-  'users/fetchCommentsStartAsync',
+  'comments/fetchCommentsStartAsync',
   () =>
     new Promise<Object>((resolve) => {
       setTimeout(() => {
