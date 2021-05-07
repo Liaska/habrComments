@@ -143,43 +143,43 @@ const Technology = ({
 
   const technologyArray = config[technology];
 
-  const [name, setName] = useState(technologyArray[0].name);
-  const [publishDate, setPublishDate] = useState(technologyArray[0].publishDate);
-  const [fullName, setFullName] = useState(technologyArray[0].fullName);
-  const [info, setInfo] = useState(technologyArray[0].info);
-  const [color, setColor] = useState(technologyArray[0].color);
-  const [prevColor, setPrevColor] = useState(technologyArray[0].color);
-  const [logo, setLogo] = useState(technologyArray[0].logo);
-  const [toggle, setToggle] = useState(false);
+  const [configState, setConfigState] = useState({
+    ...technologyArray[0],
+    prevColor: technologyArray[0].color,
+    toggle: false,
+  });
 
   const setAll = (index) => {
-    setName(technologyArray[index].name);
-    setPublishDate(technologyArray[index].publishDate);
-    setFullName(technologyArray[index].fullName);
-    setInfo(technologyArray[index].info);
-    setPrevColor(color);
-    setColor(technologyArray[index].color);
-    setLogo(technologyArray[index].logo);
+    setConfigState({
+      name: technologyArray[index].name,
+      color: technologyArray[index].color,
+      info: technologyArray[index].info,
+      fullName: technologyArray[index].fullName,
+      publishDate: technologyArray[index].publishDate,
+      logo: technologyArray[index].logo,
+      prevColor: configState.color,
+      toggle: !configState.toggle,
+    });
   };
 
   return (
     <div>
       <TechnologyCard>
         <TechnologyShow>
-          <h1>{name}</h1>
-          <GradientPrev bgColor={prevColor}></GradientPrev>
-          <GradientActive bgColor={color} toggle={toggle}></GradientActive>
+          <h1>{configState.name}</h1>
+          <GradientPrev bgColor={configState.prevColor}></GradientPrev>
+          <GradientActive bgColor={configState.color} toggle={configState.toggle}></GradientActive>
 
-          <TechnologyLogo src={logo}></TechnologyLogo>
+          <TechnologyLogo src={configState.logo}></TechnologyLogo>
         </TechnologyShow>
         <TechnologyInfo>
           <TechnologyName>
-            <h1>{name}</h1>
-            <h3>{publishDate}</h3>
+            <h1>{configState.name}</h1>
+            <h3>{configState.publishDate}</h3>
           </TechnologyName>
           <TechnologyDescription>
-            <h3 className='title'>{fullName}</h3>
-            <p className='text'>{info}</p>
+            <h3 className='title'>{configState.fullName}</h3>
+            <p className='text'>{configState.info}</p>
           </TechnologyDescription>
           <TechnologyTypes>
             <h3>Frameworks</h3>
@@ -194,7 +194,6 @@ const Technology = ({
                       key={tech.name}
                       onClick={() => {
                         setAll(index);
-                        setToggle(!toggle);
                       }}>
                       {tech.name}
                     </span>
