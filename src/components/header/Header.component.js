@@ -28,7 +28,7 @@ const Header = ({ currentUser }) => {
       <HeaderNav>
         <HeaderNavItem to='/'>Home</HeaderNavItem>
         <HeaderNavItem to='/comments'>Comments</HeaderNavItem>
-        <HeaderNavItem to='/about'>About</HeaderNavItem>
+        <HeaderNavItem to='/technologies'>Technologies</HeaderNavItem>
         <HeaderNavItem to='/users'>Users</HeaderNavItem>
         <HeaderNavItem to='/coinbase'>Coinbase</HeaderNavItem>
         {isAuthenticated ? (

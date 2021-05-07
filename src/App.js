@@ -12,7 +12,8 @@ import Header from './components/header/Header.component';
 import { selectCurrentUser } from './redux/user/user.select';
 import { setCurrentUser } from './redux/user/userSlice';
 
-import { createBrowserHistory } from "history";
+import { createBrowserHistory } from 'history';
+import TechnologiesPage from './pages/technologies/TechnologiesPage.component';
 
 const history = createBrowserHistory();
 
@@ -44,7 +45,8 @@ function App({ setCurrentUser }) {
         <Route exact path='/'>
           <div></div>
         </Route>
-        <Route exact path='/about'></Route>
+        <Route component={TechnologiesPage} path='/technologies'>
+        </Route>
         <Route exact path='/users'>
           <UsersPage></UsersPage>
         </Route>

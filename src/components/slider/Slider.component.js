@@ -18,6 +18,17 @@ const Slider = ({ slides, SlideComponent }) => {
     setLeft(left + 100);
   };
 
+  const moveSlider = (event, eventType = event.clientX) => {
+    if (touchStart - eventType < -50 || touchStart - eventType > 50) {
+      return false;
+    }
+    setTransformLeft(-touchStart + eventType);
+  };
+
+  const transformZero = () => {
+    setTransformLeft(0);
+  };
+
   return (
     <SliderContainer
       onTouchStart={(event) => {
@@ -29,29 +40,28 @@ const Slider = ({ slides, SlideComponent }) => {
         } else if (event.changedTouches[0].clientX < touchStart - 50) {
           increaseLeft();
         }
-        setTransformLeft(0);
+        transformZero();
       }}
-      onTouchMove={(event) => {
-        if (
-          touchStart - event.changedTouches[0].clientX < -50 ||
-          touchStart - event.changedTouches[0].clientX > 50
-        ) {
-          return false
+      onMouseDown={(event) => {
+        setTouchStart(event.clientX);
+      }}
+      onMouseUp={(event) => {
+        if (event.clientX > touchStart + 50) {
+          reduceLeft();
+        } else if (event.clientX < touchStart - 50) {
+          increaseLeft();
         }
-        setTransformLeft(-touchStart + event.changedTouches[0].clientX);
+        transformZero();
       }}
+      onTouchMove={(event) => moveSlider(event, event.changedTouches[0].clientX)}
       onWheel={(event) => {
-        // TODO Возможно стоит добавить тротл
-
         if (event.deltaY < 0) {
           reduceLeft();
         } else {
           increaseLeft();
         }
       }}
-      onTouchCancel={() => {
-        setTransformLeft(0);
-      }}>
+      onTouchCancel={transformZero}>
       <SliderBack onClick={reduceLeft}>&#5130;</SliderBack>
       <SliderWrapper
         ref={divRef}
