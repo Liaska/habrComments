@@ -7,11 +7,16 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchCoinbaseData = createAsyncThunk('coinbase/fetchCoinbaseData', async () => {
   const coinbaseCurrencies = await fetch('https://api-public.sandbox.pro.coinbase.com/products');
-  return coinbaseCurrencies.json();
+  if (coinbaseCurrencies.ok) {
+    return await coinbaseCurrencies.json();
+  } else {
+    alert("Ошибка HTTP: " + coinbaseCurrencies.status);
+  }
+ 
 });
 
 const initialState = {
-  products: [],
+  productsCollection: null,
   errorMessages: [],
   coinbaseLoading: false,
 };
@@ -19,16 +24,15 @@ const initialState = {
 export const coinbase = createSlice({
   name: 'coinbase',
   initialState,
-  reducers: {
-
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchCoinbaseData.pending, (state) => {
       state.coinbaseLoading = true;
     });
     builder.addCase(fetchCoinbaseData.fulfilled, (state, action) => {
       state.coinbaseLoading = false;
-      state.products = action.payload;
+      console.log(action.payload)
+      state.productsCollection = action.payload;
     });
     builder.addCase(fetchCoinbaseData.rejected, (state, action) => {
       state.coinbaseLoading = false;
@@ -36,7 +40,5 @@ export const coinbase = createSlice({
     });
   },
 });
-
-export const {} = coinbase.actions;
 
 export default coinbase.reducer;

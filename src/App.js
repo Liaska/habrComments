@@ -6,6 +6,7 @@ import { auth, createUserProfileDocument } from './firebase';
 import CommentsPage from './pages/comments/CommentsPage.component';
 import SignPage from './pages/sign/SignPage.component';
 import UsersPage from './pages/users/UsersPage.component';
+import CoinbasePage from './pages/coinbase/Coinbase.component';
 import Header from './components/header/Header.component';
 
 import { selectCurrentUser } from './redux/user/user.select';
@@ -41,11 +42,14 @@ function App({ setCurrentUser }) {
       <Header />
       <Switch>
         <Route exact path='/'>
-          <div>фывфы</div>
+          <div></div>
         </Route>
         <Route exact path='/about'></Route>
         <Route exact path='/users'>
           <UsersPage></UsersPage>
+        </Route>
+        <Route exact path='/coinbase'>
+          <CoinbasePage></CoinbasePage>
         </Route>
         <Route exact path='/comments'>
           <CommentsPage />

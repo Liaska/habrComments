@@ -14,9 +14,8 @@ const UsersPage = ({ users, fetchUsers }) => {
   }, []);
 
   return (
-    <div>s
+    <div>
       {users.map((user) => {
-          console.log(user)
           return (<UserCard key={user.email} email={user.email} displayName={user.displayName}></UserCard>);
         })}
     </div>

@@ -1,8 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectComments = (state) => state.coinbase;
+const selectCoinbase = (state) => state.coinbase;
 
-export const selectCommentsCollection = createSelector(
-  [selectComments],
-  (coinbase) => coinbase.products
+export const selectProducts = createSelector(
+  [selectCoinbase],
+  (coinbase) => coinbase.productsCollection
 );

@@ -9,7 +9,7 @@ const initialState = {
   usersLoading: false,
 };
 
-export const fetchUsers = createAsyncThunk('users/fetchUsers', () => {
+export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const usersRef = firestore.collection('users');
   return usersRef
       .get()

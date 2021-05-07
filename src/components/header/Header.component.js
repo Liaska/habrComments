@@ -23,10 +23,6 @@ const Header = ({ currentUser }) => {
     kek()
   }
 
-  if(currentUser) {
-    console.log(auth.currentUser)
-  }
-
   return (
     <HeaderContainer>
       <HeaderNav>
@@ -34,6 +30,7 @@ const Header = ({ currentUser }) => {
         <HeaderNavItem to='/comments'>Comments</HeaderNavItem>
         <HeaderNavItem to='/about'>About</HeaderNavItem>
         <HeaderNavItem to='/users'>Users</HeaderNavItem>
+        <HeaderNavItem to='/coinbase'>Coinbase</HeaderNavItem>
         {isAuthenticated ? (
           <button onClick={() => logout()}>Log Out</button>
         ) : currentUser ? (
