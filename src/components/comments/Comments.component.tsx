@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Comment from '../comment/Comment.component';
 import Loading from '../loading/Loading.component';
-
 import {
   selectCommentsCollection,
   selectCommentsCount,
@@ -11,12 +10,21 @@ import {
 } from '../../redux/comments/comments.selects';
 
 import { clearCollection, fetchCommentsStartAsync } from '../../redux/comments/commentsSlice';
+import { AppDispatch, RootState } from '../../redux/store';
 
 import { CommentsContainer, CommentsHeader, CommentsList } from './Comments.styles';
 
 const LoadingCommentsList = Loading(CommentsList);
 
-const Comments = ({
+type CommentsProps = {
+  commentsCount: number;
+  commentsCollection: any[] | null;
+  commentsLoading: boolean;
+  fetchCommentsStartAsync: Function;
+  clearCollection: Function;
+};
+
+const Comments: React.FC<CommentsProps> = ({
   commentsCount,
   commentsCollection,
   fetchCommentsStartAsync,
@@ -49,15 +57,15 @@ const Comments = ({
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   return {
-    commentsCount: selectCommentsCount(state, state.comments),
-    commentsCollection: selectCommentsCollection(state, state.comments),
-    commentsLoading: selectCommentsLoading(state, state.comments),
+    commentsCount: selectCommentsCount(state),
+    commentsCollection: selectCommentsCollection(state),
+    commentsLoading: selectCommentsLoading(state),
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
   fetchCommentsStartAsync: () => dispatch(fetchCommentsStartAsync()),
   clearCollection: () => dispatch(clearCollection()),
 });

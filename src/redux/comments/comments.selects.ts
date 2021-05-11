@@ -1,14 +1,17 @@
+import { RootState } from './../store';
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectComments = (state) => state.comments;
+import { CommentsState } from './commentsSlice';
+
+const selectComments = (state:RootState): CommentsState => state.comments;
 
 export const selectCommentsCollection = createSelector(
   [selectComments],
-  (comments) => comments.commentsCollection
+  (comments): any[] | null => comments.collection
 );
 export const selectCommentsCount = createSelector(
   [selectComments],
-  (comments) => comments.commentsCount
+  (comments): number => comments.commentsCount
 );
 export const selectOpenedAnswerForm = createSelector(
   [selectComments],
@@ -16,5 +19,5 @@ export const selectOpenedAnswerForm = createSelector(
 );
 export const selectCommentsLoading = createSelector(
   [selectComments],
-  (comments) => comments.commentsLoading
+  (comments):boolean => comments.loading
 );

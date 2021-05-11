@@ -1,3 +1,4 @@
+import { IAsyncState } from './../Interfaces';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import COMMENTS_DATA from './comments.data';
@@ -5,34 +6,33 @@ import COMMENTS_DATA from './comments.data';
 export const fetchCommentsStartAsync = createAsyncThunk(
   'comments/fetchCommentsStartAsync',
   () =>
-    new Promise<Object>((resolve) => {
+    new Promise<any[]>((resolve) => {
       setTimeout(() => {
         resolve(COMMENTS_DATA);
       }, 1000);
     })
 );
-
-type CommentsState = {
-  commentsCollection: Object | null;
-  commentsLoading: Boolean;
+interface IAuthors {
+  [author: string]: string;
+}
+export interface CommentsState extends IAsyncState {
   commentsCount: number;
-  openedAnswerForm: Object;
-  authors: {};
+  openedAnswerForm: {} | null;
+  authors: IAuthors;
   highlightedAuthor: null;
-  errorMessages?: any[];
+}
+
+const initialState: CommentsState = {
+  authors: {},
+  commentsCount: 0,
+  loading: false,
+  openedAnswerForm: null,
+  highlightedAuthor: null,
+  collection: null,
+  errorMessages: null,
 };
 
-const initialState = {
-  commentsCollection: null,
-  commentsCount: 0,
-  commentsLoading: false,
-  openedAnswerForm: null,
-  authors: {},
-  highlightedAuthor: null,
-  errorMessages: [],
-} as CommentsState;
-
-export const commentsSlice = createSlice({
+const commentsSlice = createSlice({
   name: 'comments',
   initialState,
   reducers: {
@@ -47,8 +47,8 @@ export const commentsSlice = createSlice({
     },
 
     addAuthor: (state, action: PayloadAction<{ author: string; message: string }>) => {
-      state.authors[action.payload.author] = state.authors[action.payload.author]
-        ? [...state.authors[action.payload.author], action.payload.message]
+      [state.authors[action.payload.author]] = state.authors[action.payload.author]
+        ? [...[state.authors[action.payload.author]], action.payload.message]
         : [action.payload.message];
     },
     highlightAuthor: (state, action) => {
@@ -62,15 +62,15 @@ export const commentsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCommentsStartAsync.pending, (state) => {
-      state.commentsLoading = true;
+      state.loading = true;
     });
-    builder.addCase(fetchCommentsStartAsync.fulfilled, (state, action) => {
-      state.commentsLoading = false;
-      state.commentsCollection = action.payload;
+    builder.addCase(fetchCommentsStartAsync.fulfilled, (state, action:PayloadAction<any[]>) => {
+      state.loading = false;
+      state.collection = action.payload;
     });
     builder.addCase(fetchCommentsStartAsync.rejected, (state, action) => {
-      state.commentsLoading = false;
-      state.errorMessages.push(action.payload);
+      state.loading = false;
+      state.errorMessages = `${action.payload}`;
     });
   },
 });

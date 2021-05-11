@@ -12,11 +12,24 @@ import {
   TechnologyTypes,
 } from './Technology.styles';
 
-const Technology = ({
-  match: {
-    params: { technology },
-  },
-}) => {
+interface ConfigBasement {
+  name: string;
+  color: string;
+  info: string;
+  fullName: string;
+  publishDate: string;
+  logo: string;
+}
+
+interface ConfigState extends ConfigBasement{
+  prevColor: string;
+  toggle: boolean;
+}
+
+
+const Technology = (props:any) => {
+  const technology: string = props.match.params.technology;
+
   const config = {
     js: [
       {
@@ -143,13 +156,13 @@ const Technology = ({
 
   const technologyArray = config[technology];
 
-  const [configState, setConfigState] = useState({
+  const [configState, setConfigState] = useState<ConfigState>({
     ...technologyArray[0],
     prevColor: technologyArray[0].color,
     toggle: false,
   });
 
-  const setAll = (index) => {
+  const setAll = (index: number) => {
     setConfigState({
       name: technologyArray[index].name,
       color: technologyArray[index].color,
@@ -186,7 +199,7 @@ const Technology = ({
 
             <div className='types'>
               {technologyArray &&
-                technologyArray.map((tech, index) => {
+                technologyArray.map((tech:ConfigBasement, index:number) => {
                   return (
                     <span
                       className='type'

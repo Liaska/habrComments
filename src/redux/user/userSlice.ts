@@ -1,22 +1,25 @@
+import { IAsyncState } from './../Interfaces';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { convertUserSnapshotToMap, firestore } from '../../firebase/index';
 
-const initialState = {
+interface InitialState extends IAsyncState {
+  currentUser: null | {};
+}
+
+const initialState: InitialState = {
   currentUser: null,
-  users: null,
-  errorMessages: [],
-  usersLoading: false,
+  errorMessages: null,
+  loading: false,
+  collection: null,
 };
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const usersRef = firestore.collection('users');
-  return usersRef
-      .get()
-      .then(snapshot => {
-        const collectionsMap = convertUserSnapshotToMap(snapshot);
-        return collectionsMap
-      })
+  return usersRef.get().then((snapshot) => {
+    const collectionsMap = convertUserSnapshotToMap(snapshot);
+    return collectionsMap;
+  });
 });
 
 export const userSlice = createSlice({
@@ -29,15 +32,15 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state) => {
-      state.usersLoading = true;
+      state.loading = true;
     });
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      state.usersLoading = false;
-      state.users = action.payload;
+      state.loading = false;
+      state.collection = action.payload;
     });
     builder.addCase(fetchUsers.rejected, (state, action) => {
-      state.usersLoading = false;
-      action.payload && state.errorMessages.push(action.payload);
+      state.loading = false;
+      if (action.payload) state.errorMessages = `${action.payload}`;
     });
   },
 });
