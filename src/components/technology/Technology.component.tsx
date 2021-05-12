@@ -1,6 +1,4 @@
-import { FC, useEffect, useState } from 'react';
-
-import { TObjectKey } from '../../redux/InterfacesAndTypes';
+import { FC, useState } from 'react';
 
 import {
   TechnologyCard,
@@ -182,9 +180,7 @@ const Technology: FC<any> = (props) => {
       <TechnologyCard>
         <TechnologyShow>
           <h1>{configState.name}</h1>
-          <GradientPrev {...{
-            bgColor: configState.prevColor,
-          }} ></GradientPrev>
+          <GradientPrev bgColor={configState.prevColor}></GradientPrev>
           <GradientActive bgColor={configState.color} toggle={configState.toggle}></GradientActive>
 
           <TechnologyLogo src={configState.logo}></TechnologyLogo>

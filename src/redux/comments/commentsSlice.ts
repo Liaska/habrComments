@@ -1,3 +1,4 @@
+import { TCommentsData } from './../InterfacesAndTypes';
 import { IAsyncState } from '../InterfacesAndTypes';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
@@ -12,15 +13,15 @@ export const fetchCommentsStartAsync = createAsyncThunk(
       }, 1000);
     })
 );
-interface IAuthors {
-  [author: string]: string;
+export interface IAuthors {
+  [author: string]: string[];
 }
 export interface CommentsState extends IAsyncState {
   commentsCount: number;
-  openedAnswerForm: {} | null;
+  openedAnswerForm: any;
   authors: IAuthors;
   highlightedAuthor: null;
-  collection: null | {}[];
+  collection: TCommentsData | null;
 }
 
 const initialState: CommentsState = {
@@ -43,14 +44,19 @@ const commentsSlice = createSlice({
     commentsCountDecrement: (state) => {
       state.commentsCount -= 1;
     },
-    openAnswerForm: (state, action: PayloadAction<Object>) => {
+    openAnswerForm: (state, action: PayloadAction<any>) => {
       state.openedAnswerForm = action.payload;
     },
 
-    addAuthor: (state, action: PayloadAction<{ author: string; message: string }>) => {
-      [state.authors[action.payload.author]] = state.authors[action.payload.author]
-        ? [...[state.authors[action.payload.author]], action.payload.message]
-        : [action.payload.message];
+    addAuthor: (
+      state,
+      { payload: { message, author } }: PayloadAction<{ author: string; message: string }>
+    ) => {
+      if (state.authors[author]) {
+        state.authors[author] = [...state.authors[author], message];
+      } else {
+        state.authors[author] = [message];
+      }
     },
     highlightAuthor: (state, action) => {
       state.highlightedAuthor = state.highlightedAuthor === action.payload ? null : action.payload;

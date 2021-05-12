@@ -1,5 +1,13 @@
 import styled, { css, keyframes } from 'styled-components';
 
+type TGradientActive = {
+  toggle: boolean;
+}
+
+type TGradient = {
+  bgColor: string;
+}
+
 export const TechnologyCard = styled.div`
   display: flex;
   align-items: center;
@@ -83,7 +91,7 @@ export const TechnologyShow = styled.div`
   }
 `;
 
-const Gradient = css`
+const Gradient = css<TGradient>`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -110,7 +118,9 @@ const width1 = keyframes`
   }
 `;
 
-export const GradientActive = styled.div`
+
+
+export const GradientActive = styled.div<TGradientActive & TGradient>`
   ${Gradient}
   z-index: 0;
   animation: ${(props) => (props.toggle ? width1 : width2)} 0.8s ease;

@@ -1,4 +1,6 @@
-const COMMENTS_DATA = [
+import { TCommentsData } from './../InterfacesAndTypes';
+
+const COMMENTS_DATA:TCommentsData = [
   {
     id: 1,
     author: 'Alex',

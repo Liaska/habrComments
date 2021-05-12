@@ -1,20 +1,33 @@
-import React, { useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { openAnswerForm } from '../../redux/comments/commentsSlice';
+import { AppDispatch, RootState } from '../../redux/store';
 
 import { AnswerButton, AnswerContainer, AnswerForm } from './CommentAnswer.styles';
 
-export const CommentAnswer = ({ openedAnswerForm, openAnswerForm, commentAnswerSubmit }) => {
+interface ICommentAnswer {
+  openedAnswerForm: HTMLElement | null;
+  openAnswerForm: Function;
+  setNewComments: Function;
+}
+
+export const CommentAnswer: FC<ICommentAnswer> = ({ openedAnswerForm, openAnswerForm, setNewComments }) => {
   const [login, setLogin] = useState('');
   const [message, setMessage] = useState('');
+  const answerRef = useRef() as React.MutableRefObject<HTMLInputElement>;;
 
-  const answerRef = useRef();
+  const commentAnswerSubmit = (event:React.FormEvent) => {
+    event.preventDefault();
+    setNewComments((prevState:any[]) => [...prevState, [login, message]]);
+    openAnswerForm(null);
+    (event.target as HTMLFormElement).reset()
+  };
 
   return (
     <AnswerContainer ref={answerRef}>
       <AnswerButton
-        visibility={answerRef.current === openedAnswerForm ? 'true' : 'false'}
+        vision={answerRef.current === openedAnswerForm ? 'true' : 'false'}
         onClick={() => {
           answerRef.current === openedAnswerForm
             ? openAnswerForm(null)
@@ -23,8 +36,8 @@ export const CommentAnswer = ({ openedAnswerForm, openAnswerForm, commentAnswerS
         Ответить
       </AnswerButton>
       <AnswerForm
-        onSubmit={(e) => commentAnswerSubmit(e, login, message, openAnswerForm)}
-        display={answerRef.current === openedAnswerForm ? 'true' : 'false'}>
+        onSubmit={commentAnswerSubmit}
+        vision={answerRef.current === openedAnswerForm ? 'true' : 'false'}>
         <input
           type='text'
           placeholder='Никнейм'
@@ -36,8 +49,8 @@ export const CommentAnswer = ({ openedAnswerForm, openAnswerForm, commentAnswerS
           name='commentAnswer'
           placeholder='Ответ на комментарий'
           id=''
-          cols='30'
-          rows='10'
+          cols={30}
+          rows={10}
           onChange={(e) => setMessage(e.target.value)}></textarea>
         <button type='submit'>sub</button>
       </AnswerForm>
@@ -45,12 +58,12 @@ export const CommentAnswer = ({ openedAnswerForm, openAnswerForm, commentAnswerS
   );
 };
 
-const mapStateToProps = ({ comments: { openedAnswerForm } }) => ({
-  openedAnswerForm,
+const mapStateToProps = (state: RootState) => ({
+  openedAnswerForm: state.comments.openedAnswerForm,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  openAnswerForm: (form) => dispatch(openAnswerForm(form)),
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  openAnswerForm: (form: HTMLElement) => dispatch(openAnswerForm(form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentAnswer);

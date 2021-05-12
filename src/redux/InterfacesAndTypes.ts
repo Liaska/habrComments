@@ -3,5 +3,10 @@ export interface IAsyncState {
   errorMessages: string | null;
 }
 
-export type TObjectKey<T> = T[keyof T];
-// type TAsyncState = string | boolean | any[] | object | null;
+export type TCommentsData = {
+  id: number;
+  author: string;
+  message: string;
+  likes?: number;
+  children: TCommentsData | [];
+}[];

@@ -1,3 +1,4 @@
+import { TCustomButton } from './custom-button.component';
 import styled, { css } from 'styled-components';
 
 const buttonStyles = css`
@@ -31,7 +32,7 @@ const googleSignInStyles = css`
   }
 `;
 
-const getButtonStyles = props => {
+const getButtonStyles = (props : TCustomButton) => {
   if (props.isGoogleSignIn) {
     return googleSignInStyles;
   }

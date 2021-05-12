@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { LikesDislikesContainer, DislikeButton, LikesDislikesAmount, LikeButton } from './LikesDislikes.styled';
 
 const LikesDislikes = ({ likesCount }) => {
-  const [likesCountState, setLikesCountState] = useState(likesCount || 0);
+  const [likesCountState, setLikesCountState] = useState(likesCount);
   
   return (
     <LikesDislikesContainer>

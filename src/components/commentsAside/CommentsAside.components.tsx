@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { connect } from 'react-redux';
 
-import { highlightAuthor } from '../../redux/comments/commentsSlice'
+import { highlightAuthor, IAuthors } from '../../redux/comments/commentsSlice';
+import { AppDispatch, RootState } from '../../redux/store';
 
 import {
   AsideBody,
@@ -11,7 +12,12 @@ import {
   AsideList,
 } from './CommentsAside.styles';
 
-const CommentsAside = ({ authors, highlightAuthor }) => {
+type TCommentsAside = {
+  authors: IAuthors;
+  highlightAuthor: Function;
+};
+
+const CommentsAside: FC<TCommentsAside> = ({ authors, highlightAuthor }) => {
   return (
     <AsideContainer>
       <AsideHeader>Комментаторы</AsideHeader>
@@ -31,12 +37,12 @@ const CommentsAside = ({ authors, highlightAuthor }) => {
   );
 };
 
-const mapStateToProps = ({ comments: { authors } }) => ({
-  authors,
+const mapStateToProps = (state: RootState) => ({
+  authors: state.comments.authors,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  highlightAuthor: (author) => dispatch(highlightAuthor(author)),
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  highlightAuthor: (author: string) => dispatch(highlightAuthor(author)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentsAside);

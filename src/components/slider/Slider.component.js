@@ -8,12 +8,12 @@ const Slider = ({ slides, SlideComponent }) => {
   const [touchStart, setTouchStart] = useState();
   const divRef = useRef();
 
-  const increaseLeft = () => {
+  const nextSlide = () => {
     if (left === (slides.length - 1) * -100) return;
     setLeft(left - 100);
   };
 
-  const reduceLeft = () => {
+  const prevSlide = () => {
     if (left === 0) return;
     setLeft(left + 100);
   };
@@ -36,9 +36,9 @@ const Slider = ({ slides, SlideComponent }) => {
       }}
       onTouchEnd={(event) => {
         if (event.changedTouches[0].clientX > touchStart + 50) {
-          reduceLeft();
+          prevSlide();
         } else if (event.changedTouches[0].clientX < touchStart - 50) {
-          increaseLeft();
+          nextSlide();
         }
         transformZero();
       }}
@@ -47,22 +47,22 @@ const Slider = ({ slides, SlideComponent }) => {
       }}
       onMouseUp={(event) => {
         if (event.clientX > touchStart + 50) {
-          reduceLeft();
+          prevSlide();
         } else if (event.clientX < touchStart - 50) {
-          increaseLeft();
+          nextSlide();
         }
         transformZero();
       }}
       onTouchMove={(event) => moveSlider(event, event.changedTouches[0].clientX)}
       onWheel={(event) => {
         if (event.deltaY < 0) {
-          reduceLeft();
+          prevSlide();
         } else {
-          increaseLeft();
+          nextSlide();
         }
       }}
       onTouchCancel={transformZero}>
-      <SliderBack onClick={reduceLeft}>&#5130;</SliderBack>
+      <SliderBack onClick={prevSlide}>&#5130;</SliderBack>
       <SliderWrapper
         ref={divRef}
         style={{
@@ -78,7 +78,7 @@ const Slider = ({ slides, SlideComponent }) => {
             );
           })}
       </SliderWrapper>
-      <SliderNext onClick={increaseLeft}>&#5125;</SliderNext>
+      <SliderNext onClick={nextSlide}>&#5125;</SliderNext>
     </SliderContainer>
   );
 };

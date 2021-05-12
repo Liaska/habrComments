@@ -16,7 +16,11 @@ export const TechnologiesList = styled.ul`
   grid-template-columns: repeat(3, 250px);
 `;
 
-export const Technology = styled(Link)`
+type TTechnology = {
+  bg: string;
+}
+
+export const Technology = styled(Link)<TTechnology>`
   padding: 25px;
   border-radius: 5px;
   border: 1px solid black;

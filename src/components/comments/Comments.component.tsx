@@ -13,16 +13,16 @@ import { clearCollection, fetchCommentsStartAsync } from '../../redux/comments/c
 import { AppDispatch, RootState } from '../../redux/store';
 
 import { CommentsContainer, CommentsHeader, CommentsList } from './Comments.styles';
+import { TCommentsData } from '../../redux/InterfacesAndTypes';
 
 const LoadingCommentsList = Loading(CommentsList);
 
 type CommentsProps = {
   commentsCount: number;
-  commentsCollection: any[] | null;
+  commentsCollection: TCommentsData | null;
   commentsLoading: boolean;
   fetchCommentsStartAsync: Function;
   clearCollection: Function;
-  setCommentators: Function;
 };
 
 const Comments: FC<CommentsProps> = ({
@@ -31,7 +31,6 @@ const Comments: FC<CommentsProps> = ({
   fetchCommentsStartAsync,
   commentsLoading,
   clearCollection,
-  setCommentators,
 }) => {
   useEffect(() => {
     if (!commentsCollection) {

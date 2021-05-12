@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, FC } from 'react';
 import { connect } from 'react-redux';
 import LikesDislikes from '../likesDislikes/LikesDislikes.component';
 import CommentAnswer from '../commentAnswer/CommentAnswer.component';
@@ -19,8 +19,21 @@ import {
   ShowComment,
   CommentWrapper,
 } from './Comment.styles';
+import { TCommentsData } from '../../redux/InterfacesAndTypes';
+import { AppDispatch, RootState } from '../../redux/store';
 
-const Comment = ({
+interface IComment {
+  author: string;
+  likes?: number;
+  message: string;
+  children?: TCommentsData;
+  commentsCountIncrement: Function;
+  addAuthor: Function;
+  highlightedAuthor: any;
+  level: number;
+}
+
+const Comment: FC<IComment> = ({
   author,
   likes,
   message,
@@ -33,16 +46,9 @@ const Comment = ({
   const [showComments, setShowComment] = useState(true);
   const [newComments, setNewComments] = useState([]);
 
-  const commentAnswerSubmit = (event, author, message, resetAnswerTarget) => {
-    event.preventDefault();
-    setNewComments((prevState) => [...prevState, [author, message]]);
-    resetAnswerTarget(null);
-    event.target.reset();
-  };
-
   useEffect(() => {
     commentsCountIncrement();
-    addAuthor({ author, message });
+    addAuthor(author, message);
   }, []);
 
   const intervalRef = useRef();
@@ -55,10 +61,10 @@ const Comment = ({
         <CommentWrapper className={highlightedAuthor === author ? `highlightedAuthor` : ''}>
           <CommentHeader>
             <CommentAuthor>{author}</CommentAuthor>
-            <LikesDislikes likesCount={likes} />
+            <LikesDislikes likesCount={likes || 0} />
           </CommentHeader>
           <CommentMessage>{message}</CommentMessage>
-          <CommentAnswer commentAnswerSubmit={commentAnswerSubmit}></CommentAnswer>
+          <CommentAnswer setNewComments={setNewComments}></CommentAnswer>
         </CommentWrapper>
         {newComments.length > 0 &&
           newComments.map((newComment, index) => {
@@ -97,14 +103,13 @@ const Comment = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   highlightedAuthor: state.comments.highlightedAuthor,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
   commentsCountIncrement: () => dispatch(commentsCountIncrement()),
-  addAuthor: (author, message) => dispatch(addAuthor(author, message)),
-  openAnswerForm: (form) => dispatch(openAnswerForm(form)),
+  addAuthor: (author: string, message: string) => dispatch(addAuthor({author, message})),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comment);
