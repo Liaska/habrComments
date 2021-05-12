@@ -1,10 +1,12 @@
-import { IAsyncState } from './../Interfaces';
+import { TUsers } from './../../pages/users/UsersPage.component';
+import { IAsyncState } from '../InterfacesAndTypes';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { convertUserSnapshotToMap, firestore } from '../../firebase/index';
 
 interface InitialState extends IAsyncState {
   currentUser: null | {};
+  collection: TUsers[] | null,
 }
 
 const initialState: InitialState = {

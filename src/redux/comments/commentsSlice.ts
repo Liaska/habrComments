@@ -1,4 +1,4 @@
-import { IAsyncState } from './../Interfaces';
+import { IAsyncState } from '../InterfacesAndTypes';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import COMMENTS_DATA from './comments.data';
@@ -20,6 +20,7 @@ export interface CommentsState extends IAsyncState {
   openedAnswerForm: {} | null;
   authors: IAuthors;
   highlightedAuthor: null;
+  collection: null | {}[];
 }
 
 const initialState: CommentsState = {
@@ -64,7 +65,7 @@ const commentsSlice = createSlice({
     builder.addCase(fetchCommentsStartAsync.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchCommentsStartAsync.fulfilled, (state, action:PayloadAction<any[]>) => {
+    builder.addCase(fetchCommentsStartAsync.fulfilled, (state, action: PayloadAction<any[]>) => {
       state.loading = false;
       state.collection = action.payload;
     });

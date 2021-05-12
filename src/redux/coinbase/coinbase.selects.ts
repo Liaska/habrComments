@@ -1,10 +1,11 @@
+import { coinbaseCurrencies, ICoinbase } from './coinbaseSlice';
 import { RootState } from './../store';
-import {  IAsyncState } from './../Interfaces';
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectCoinbase = (state:RootState): IAsyncState => state.coinbase;
+const selectCoinbase = (state:RootState): ICoinbase => state.coinbase;
 
 export const selectProducts = createSelector(
   [selectCoinbase],
-  (coinbase): object | null => coinbase.collection
+  (coinbase): 
+  coinbaseCurrencies[] | null => coinbase.collection
 );

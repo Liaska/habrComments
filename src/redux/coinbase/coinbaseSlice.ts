@@ -1,18 +1,26 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AsyncState } from './../Interfaces';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IAsyncState } from '../InterfacesAndTypes';
 
-export const fetchCoinbaseData = createAsyncThunk('coinbase/fetchCoinbaseData', async () => {
-  const coinbaseCurrencies = await fetch('https://api-public.sandbox.pro.coinbase.com/products');
-  if (coinbaseCurrencies.ok) {
-    return await coinbaseCurrencies.json();
-  } else {
-    alert('Ошибка HTTP: ' + coinbaseCurrencies.status);
+export interface coinbaseCurrencies {
+  [index: string]: string | boolean;
+}
+
+export interface ICoinbase extends IAsyncState {
+  collection: null | coinbaseCurrencies[],
+}
+
+export const fetchCoinbaseData = createAsyncThunk<coinbaseCurrencies[]>(
+  'coinbase/fetchCoinbaseData',
+  async () => {
+    const coinbaseCurrencies = await fetch('https://api-public.sandbox.pro.coinbase.com/products');
+    const data: coinbaseCurrencies[] = await coinbaseCurrencies.json();
+    return data;
   }
-});
+);
 
-const initialState: AsyncState = {
+const initialState: ICoinbase = {
   collection: null,
-  errorMessages: [],
+  errorMessages: null,
   loading: false,
 };
 
@@ -24,13 +32,16 @@ const coinbase = createSlice({
     builder.addCase(fetchCoinbaseData.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchCoinbaseData.fulfilled, (state, action) => {
+    builder.addCase(
+      fetchCoinbaseData.fulfilled,
+      (state, { payload }: PayloadAction<coinbaseCurrencies[]>) => {
+        state.loading = false;
+        state.collection = payload;
+      }
+    );
+    builder.addCase(fetchCoinbaseData.rejected, (state, { payload }) => {
       state.loading = false;
-      state.collection = action.payload;
-    });
-    builder.addCase(fetchCoinbaseData.rejected, (state, action) => {
-      state.loading = false;
-      state.errorMessages.push(action.payload);
+      state.errorMessages = `${payload}`;
     });
   },
 });

@@ -1,8 +1,13 @@
-import React from 'react';
+import { FC } from 'react';
 
-import {DisplayName, StyledContainer, Email} from './UserCard.styles';
+import { DisplayName, StyledContainer, Email } from './UserCard.styles';
 
-const UserCard = ({displayName, email}) => (
+type UserCardProps = {
+  displayName: string;
+  email: string;
+};
+
+const UserCard: FC<UserCardProps> = ({ displayName, email }) => (
   <StyledContainer>
     <DisplayName>{displayName}</DisplayName>
     <Email>{email}</Email>

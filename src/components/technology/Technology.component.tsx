@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+
+import { TObjectKey } from '../../redux/InterfacesAndTypes';
 
 import {
   TechnologyCard,
@@ -18,19 +20,22 @@ interface ConfigBasement {
   info: string;
   fullName: string;
   publishDate: string;
-  logo: string;
+  logo?: string;
 }
 
-interface ConfigState extends ConfigBasement{
+interface ConfigState extends ConfigBasement {
   prevColor: string;
   toggle: boolean;
 }
 
+interface IConfig {
+  [key: string] : ConfigBasement[]
+}
 
-const Technology = (props:any) => {
+const Technology: FC<any> = (props) => {
   const technology: string = props.match.params.technology;
 
-  const config = {
+  const config:IConfig = {
     js: [
       {
         name: 'React',
@@ -38,8 +43,7 @@ const Technology = (props:any) => {
         info: 'A JavaScript library for building user interfaces',
         fullName: 'ReactJS',
         publishDate: 'May 29, 2013',
-        logo:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png',
       },
       {
         name: 'Angular',
@@ -47,8 +51,7 @@ const Technology = (props:any) => {
         info: "The modern web developer's platform",
         fullName: 'AngularJS',
         publishDate: 'Sep 14,  2016',
-        logo:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/1200px-Angular_full_color_logo.svg.png',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/1200px-Angular_full_color_logo.svg.png',
       },
       {
         name: 'Vue',
@@ -56,8 +59,7 @@ const Technology = (props:any) => {
         info: 'The Progressive JavaScript Framework',
         fullName: 'Vue.js',
         publishDate: 'February 2014',
-        logo:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png',
       },
     ],
     css: [
@@ -154,7 +156,7 @@ const Technology = (props:any) => {
     ],
   };
 
-  const technologyArray = config[technology];
+  const technologyArray = config[technology]
 
   const [configState, setConfigState] = useState<ConfigState>({
     ...technologyArray[0],
@@ -180,7 +182,9 @@ const Technology = (props:any) => {
       <TechnologyCard>
         <TechnologyShow>
           <h1>{configState.name}</h1>
-          <GradientPrev bgColor={configState.prevColor}></GradientPrev>
+          <GradientPrev {...{
+            bgColor: configState.prevColor,
+          }} ></GradientPrev>
           <GradientActive bgColor={configState.color} toggle={configState.toggle}></GradientActive>
 
           <TechnologyLogo src={configState.logo}></TechnologyLogo>
@@ -199,7 +203,7 @@ const Technology = (props:any) => {
 
             <div className='types'>
               {technologyArray &&
-                technologyArray.map((tech:ConfigBasement, index:number) => {
+                technologyArray.map((tech: ConfigBasement, index: number) => {
                   return (
                     <span
                       className='type'

@@ -4,8 +4,12 @@ import Comments from '../../components/comments/Comments.component';
 
 import { CommentsPageContainer } from './CommentsPage.styles';
 
+interface ICommentators {
+  [author: string]: any[];
+}
+
 const CommentsPage = () => {
-  const [commentators, setCommentators] = useState(new Set());
+  const [commentators, setCommentators] = useState<ICommentators>({});
 
   return (
     <CommentsPageContainer>

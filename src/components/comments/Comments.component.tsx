@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Comment from '../comment/Comment.component';
@@ -22,14 +22,16 @@ type CommentsProps = {
   commentsLoading: boolean;
   fetchCommentsStartAsync: Function;
   clearCollection: Function;
+  setCommentators: Function;
 };
 
-const Comments: React.FC<CommentsProps> = ({
+const Comments: FC<CommentsProps> = ({
   commentsCount,
   commentsCollection,
   fetchCommentsStartAsync,
   commentsLoading,
   clearCollection,
+  setCommentators,
 }) => {
   useEffect(() => {
     if (!commentsCollection) {

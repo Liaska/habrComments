@@ -6,8 +6,19 @@ import { fetchUsers } from '../../redux/user/userSlice';
 import UserCard from '../../components/userCard/UserCard.component';
 
 import {} from './UsersPage.styles';
+import { AppDispatch, RootState } from '../../redux/store';
 
-const UsersPage = ({ users, fetchUsers }) => {
+interface IUsersPageProps {
+  users: TUsers[] | null;
+  fetchUsers: Function;
+}
+
+export type TUsers = {
+  email: string;
+  displayName: string;
+};
+
+const UsersPage: React.FC<IUsersPageProps> = ({ users, fetchUsers }) => {
   useEffect(() => {
     fetchUsers();
     return () => {};
@@ -15,20 +26,23 @@ const UsersPage = ({ users, fetchUsers }) => {
 
   return (
     <div>
-      {users.map((user) => {
-          return (<UserCard key={user.email} email={user.email} displayName={user.displayName}></UserCard>);
+      {users &&
+        users.map((user) => {
+          return (
+            <UserCard key={user.email} email={user.email} displayName={user.displayName}></UserCard>
+          );
         })}
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   return {
-    users: selectUsers(state, state.users),
+    users: selectUsers(state),
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
   fetchUsers: () => dispatch(fetchUsers()),
 });
 

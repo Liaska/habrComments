@@ -1,7 +1,7 @@
 export interface IAsyncState {
   loading: boolean;
   errorMessages: string | null;
-  collection: null | any[];
 }
 
+export type TObjectKey<T> = T[keyof T];
 // type TAsyncState = string | boolean | any[] | object | null;
