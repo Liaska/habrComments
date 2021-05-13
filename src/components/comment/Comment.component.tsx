@@ -1,13 +1,9 @@
-import React, { useEffect, useState, useRef, FC } from 'react';
+import { useEffect, useState, useRef, FC, memo, useMemo } from 'react';
 import { connect } from 'react-redux';
 import LikesDislikes from '../likesDislikes/LikesDislikes.component';
 import CommentAnswer from '../commentAnswer/CommentAnswer.component';
 
-import {
-  commentsCountIncrement,
-  openAnswerForm,
-  addAuthor,
-} from '../../redux/comments/commentsSlice';
+import { commentsCountIncrement, addAuthor } from '../../redux/comments/commentsSlice';
 
 import {
   CommentAuthor,
@@ -53,6 +49,40 @@ const Comment: FC<IComment> = ({
 
   const intervalRef = useRef();
 
+  const MemoChildren = useMemo(
+    () =>
+      children &&
+      children.map((childComment) => {
+        return (
+          <Comment
+            key={childComment.id}
+            highlightedAuthor={highlightedAuthor}
+            commentsCountIncrement={commentsCountIncrement}
+            addAuthor={addAuthor}
+            level={level + 1}
+            {...childComment}></Comment>
+        );
+      }),
+    [children]
+  );
+
+  const MemoNewChildrens = useMemo(
+    () =>
+      newComments.map((newComment, index) => {
+        return (
+          <Comment
+            key={index}
+            highlightedAuthor={highlightedAuthor}
+            commentsCountIncrement={commentsCountIncrement}
+            addAuthor={addAuthor}
+            level={level + 1}
+            author={newComment[0]}
+            message={newComment[1]}></Comment>
+        );
+      }),
+    [newComments]
+  );
+
   return (
     <div>
       <CommentContainer style={showComments ? { display: 'block' } : { display: 'none' }}>
@@ -66,33 +96,8 @@ const Comment: FC<IComment> = ({
           <CommentMessage>{message}</CommentMessage>
           <CommentAnswer setNewComments={setNewComments}></CommentAnswer>
         </CommentWrapper>
-        {newComments.length > 0 &&
-          newComments.map((newComment, index) => {
-            return (
-              <Comment
-                key={index}
-                highlightedAuthor={highlightedAuthor}
-                commentsCountIncrement={commentsCountIncrement}
-                addAuthor={addAuthor}
-                level={level + 1}
-                author={newComment[0]}
-                message={newComment[1]}></Comment>
-            );
-          })}
-
-        {children &&
-          children.length > 0 &&
-          children.map((childComment) => {
-            return (
-              <Comment
-                key={childComment.id}
-                highlightedAuthor={highlightedAuthor}
-                commentsCountIncrement={commentsCountIncrement}
-                addAuthor={addAuthor}
-                level={level + 1}
-                {...childComment}></Comment>
-            );
-          })}
+        {MemoNewChildrens}
+        {MemoChildren}
       </CommentContainer>
       <ShowComment
         style={showComments ? { display: 'none' } : { display: 'block' }}
@@ -109,7 +114,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   commentsCountIncrement: () => dispatch(commentsCountIncrement()),
-  addAuthor: (author: string, message: string) => dispatch(addAuthor({author, message})),
+  addAuthor: (author: string, message: string) => dispatch(addAuthor({ author, message })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comment);

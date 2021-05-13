@@ -12,7 +12,13 @@ export type TCommentsData = {
 }[];
 
 export type TUser = {
+  id: string;
   email: string;
   displayName?: string;
   createdAt: number;
 };
+
+export interface IUser {
+  currentUser: null | TUser;
+  setCurrentUser: Function;
+}

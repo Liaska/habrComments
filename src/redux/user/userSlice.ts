@@ -1,9 +1,8 @@
 import { TUsers } from './../../pages/users/UsersPage.component';
 import { IAsyncState, TUser } from '../InterfacesAndTypes';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 import { convertUserSnapshotToMap, firestore } from '../../firebase/index';
-
+import { Redirect, Route } from "react-router";
 
 interface InitialState extends IAsyncState {
   currentUser: null | TUser;

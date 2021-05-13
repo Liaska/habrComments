@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, memo, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Comment from '../comment/Comment.component';
@@ -71,4 +71,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
   clearCollection: () => dispatch(clearCollection()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Comments);
+export default connect(mapStateToProps, mapDispatchToProps)(memo(Comments));

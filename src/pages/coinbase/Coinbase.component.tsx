@@ -26,8 +26,6 @@ export const CoinbasePage: React.FC<CoinbasePageProps> = ({
     return () => {};
   }, []);
 
-  console.log('RENDER COINBASE PAGE');
-
   return (
     <CoinbaseContainer>
       {productsCollection && productsCollection.length > 0 && (

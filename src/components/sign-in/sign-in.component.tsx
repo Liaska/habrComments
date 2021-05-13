@@ -1,17 +1,16 @@
 import { useState, FormEvent } from 'react';
-import { useHistory } from 'react-router-dom';
-
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import { auth, signInWithGoogle } from '../../firebase';
-
 import { Buttons, SignInWrapper, Title } from './sign-in.styles';
+import { useHistory } from 'react-router-dom';
 
 const SignIn = () => {
+  const history = useHistory();
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
 
   const submitForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

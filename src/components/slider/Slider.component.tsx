@@ -37,7 +37,7 @@ const Slider: FC<ISlider> = ({ slides, Slide }) => {
           </div>
         );
       }),
-    slides
+    [slides]
   );
 
   return (

@@ -1,41 +1,37 @@
-import { useEffect } from 'react';
+import { lazy, useEffect, Suspense } from 'react';
 import { connect } from 'react-redux';
-import { Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { auth, createUserProfileDocument } from './firebase';
-
-import CommentsPage from './pages/comments/CommentsPage.component';
-import SignPage from './pages/sign/SignPage.component';
-import UsersPage from './pages/users/UsersPage.component';
-import CoinbasePage from './pages/coinbase/Coinbase.component';
 import Header from './components/header/Header.component';
-
 import { setCurrentUser } from './redux/user/userSlice';
+import { AppDispatch, RootState } from './redux/store';
+import { selectCurrentUser } from './redux/user/user.select';
+import { IUser } from './redux/InterfacesAndTypes';
+import ErrorBoundary from './components/ErrorBoundary';
 
-import { createBrowserHistory } from 'history';
-import TechnologiesPage from './pages/technologies/TechnologiesPage.component';
-import { AppDispatch } from './redux/store';
+const CommentsPage = lazy(() => import('./pages/comments/CommentsPage.component'));
+const SignPage = lazy(() => import('./pages/sign/SignPage.component'));
+const UsersPage = lazy(() => import('./pages/users/UsersPage.component'));
+const CoinbasePage = lazy(() => import('./pages/coinbase/Coinbase.component'));
+const TechnologiesPage = lazy(() => import('./pages/technologies/TechnologiesPage.component'));
 
-const history = createBrowserHistory();
-
-interface IApp {
-  setCurrentUser: Function
-}
-
-function App({ setCurrentUser }:IApp) {
+function App({ currentUser, setCurrentUser }: IUser) {
   useEffect(() => {
+    if (currentUser) {
+      return;
+    }
     const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
-        userRef && userRef.onSnapshot((snapShot) => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data(),
+        userRef &&
+          userRef.onSnapshot((snapShot) => {
+            setCurrentUser({
+              id: snapShot.id,
+              ...snapShot.data(),
+            });
           });
-        });
       }
-
-      setCurrentUser(userAuth);
     });
     return () => {
       unsubscribeFromAuth();
@@ -43,33 +39,43 @@ function App({ setCurrentUser }:IApp) {
   }, []);
 
   return (
-    <Router history={history}>
+    <BrowserRouter>
       <Header />
-      <Switch>
-        <Route exact path='/'>
-          <div></div>
-        </Route>
-        <Route component={TechnologiesPage} path='/technologies'>
-        </Route>
-        <Route exact path='/users'>
-          <UsersPage></UsersPage>
-        </Route>
-        <Route exact path='/coinbase'>
-          <CoinbasePage></CoinbasePage>
-        </Route>
-        <Route exact path='/comments'>
-          <CommentsPage />
-        </Route>
-        <Route exact path='/sign'>
-          <SignPage></SignPage>
-        </Route>
-      </Switch>
-    </Router>
+      <ErrorBoundary>
+        <Suspense fallback={'Идет загрузка'}>
+          <Switch>
+            <Route exact path='/'>
+              <div></div>
+            </Route>
+            <Route component={TechnologiesPage} path='/technologies'></Route>
+            <Route exact path='/users'>
+              <UsersPage></UsersPage>
+            </Route>
+            <Route exact path='/coinbase'>
+              <CoinbasePage></CoinbasePage>
+            </Route>
+            <Route exact path='/comments'>
+              <CommentsPage />
+            </Route>
+            <Route exact path='/sign'>
+              <SignPage></SignPage>
+            </Route>
+            <Route path='*'>
+              <div>KEKW</div>
+            </Route>
+          </Switch>
+        </Suspense>
+      </ErrorBoundary>
+    </BrowserRouter>
   );
 }
 
-const mapDispatchToProps = (dispatch:AppDispatch) => ({
-  setCurrentUser: (user:string) => dispatch(setCurrentUser(user)),
+const mapStateToProps = (state: RootState) => ({
+  currentUser: selectCurrentUser(state),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  setCurrentUser: (user: string) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
