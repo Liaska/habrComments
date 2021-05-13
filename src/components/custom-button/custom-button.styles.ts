@@ -1,10 +1,9 @@
-import { TCustomButton } from './custom-button.component';
 import styled, { css } from 'styled-components';
 
 const buttonStyles = css`
   background-color: black;
   color: white;
-  border: 1px solid transparent;;
+  border: 1px solid transparent;
   &:hover {
     background-color: white;
     color: black;
@@ -32,7 +31,12 @@ const googleSignInStyles = css`
   }
 `;
 
-const getButtonStyles = (props : TCustomButton) => {
+type TgetButtonStyles = {
+  isGoogleSignIn?: boolean;
+  inverted?: boolean;
+};
+
+const getButtonStyles = (props: TgetButtonStyles) => {
   if (props.isGoogleSignIn) {
     return googleSignInStyles;
   }

@@ -7,7 +7,7 @@ import COMMENTS_DATA from './comments.data';
 export const fetchCommentsStartAsync = createAsyncThunk(
   'comments/fetchCommentsStartAsync',
   () =>
-    new Promise<any[]>((resolve) => {
+    new Promise<TCommentsData>((resolve) => {
       setTimeout(() => {
         resolve(COMMENTS_DATA);
       }, 1000);

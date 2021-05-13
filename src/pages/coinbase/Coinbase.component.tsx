@@ -5,13 +5,13 @@ import Slider from '../../components/slider/Slider.component';
 import CoinbaseCard from '../../components/coinbaseCard/CoinbaseCard.component';
 
 import { selectProducts } from '../../redux/coinbase/coinbase.selects';
-import { fetchCoinbaseData } from '../../redux/coinbase/coinbaseSlice';
+import { coinbaseCurrencies, fetchCoinbaseData } from '../../redux/coinbase/coinbaseSlice';
 
 import { CoinbaseContainer } from './Component.styles';
 import { AppDispatch, RootState } from '../../redux/store';
 
 type CoinbasePageProps = {
-  productsCollection: {}[] | null;
+  productsCollection: coinbaseCurrencies[] | null;
   fetchCoinbaseData: Function;
 };
 
@@ -26,12 +26,12 @@ export const CoinbasePage: React.FC<CoinbasePageProps> = ({
     return () => {};
   }, []);
 
-  console.log(productsCollection);
+  console.log('RENDER COINBASE PAGE');
 
   return (
     <CoinbaseContainer>
-      {productsCollection && (
-        <Slider slides={productsCollection} SlideComponent={CoinbaseCard}></Slider>
+      {productsCollection && productsCollection.length > 0 && (
+        <Slider slides={productsCollection} Slide={CoinbaseCard}></Slider>
       )}
     </CoinbaseContainer>
   );

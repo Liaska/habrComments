@@ -9,7 +9,7 @@ const shrinkLabelStyles = css`
   color: ${mainColor};
 `;
 
-export const GroupContainer = styled.div`
+export const FormInputWrapperContainer = styled.div`
   position: relative;
   margin: 45px 0;
   input[type='password'] {

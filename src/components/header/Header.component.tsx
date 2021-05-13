@@ -1,27 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { selectCurrentUser } from '../../redux/user/user.select';
 
 import { HeaderContainer, HeaderNav, HeaderNavItem } from './Header.styles';
 import { auth } from '../../firebase';
 import { useAuth0 } from '@auth0/auth0-react';
+import { RootState } from '../../redux/store';
+import { TUser } from '../../redux/InterfacesAndTypes';
 
-const Header = ({ currentUser }) => {
-  const { user, isAuthenticated, logout, getTokenWithPopup, getAccessTokenSilently, getIdTokenClaims } = useAuth0();
+interface IHeader {
+  currentUser: TUser | null;
+}
+
+const Header: FC<IHeader> = ({ currentUser }) => {
+  const {
+    isAuthenticated,
+    logout,
+  } = useAuth0();
 
   useEffect(() => {
     return () => {
       logout();
     };
   }, []);
-
-  if (isAuthenticated) {
-    async function kek () {
-      const claims = await getIdTokenClaims();
-      const token = await getAccessTokenSilently();
-    }
-    kek()
-  }
 
   return (
     <HeaderContainer>
@@ -45,8 +46,8 @@ const Header = ({ currentUser }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentUser: selectCurrentUser(state, state.user),
+const mapStateToProps = (state: RootState) => ({
+  currentUser: selectCurrentUser(state),
 });
 
 export default connect(mapStateToProps)(Header);

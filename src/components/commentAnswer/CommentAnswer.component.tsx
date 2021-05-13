@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import { FC, useRef, FormEvent, MutableRefObject, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { openAnswerForm } from '../../redux/comments/commentsSlice';
@@ -12,16 +12,20 @@ interface ICommentAnswer {
   setNewComments: Function;
 }
 
-export const CommentAnswer: FC<ICommentAnswer> = ({ openedAnswerForm, openAnswerForm, setNewComments }) => {
+export const CommentAnswer: FC<ICommentAnswer> = ({
+  openedAnswerForm,
+  openAnswerForm,
+  setNewComments,
+}) => {
   const [login, setLogin] = useState('');
   const [message, setMessage] = useState('');
-  const answerRef = useRef() as React.MutableRefObject<HTMLInputElement>;;
+  const answerRef = useRef() as MutableRefObject<HTMLInputElement>;
 
-  const commentAnswerSubmit = (event:React.FormEvent) => {
+  const commentAnswerSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setNewComments((prevState:any[]) => [...prevState, [login, message]]);
+    setNewComments((prevState: any[]) => [...prevState, [login, message]]);
     openAnswerForm(null);
-    (event.target as HTMLFormElement).reset()
+    (event.target as HTMLFormElement).reset();
   };
 
   return (

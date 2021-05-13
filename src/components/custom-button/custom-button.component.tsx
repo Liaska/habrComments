@@ -1,18 +1,17 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 
 import { CustomButtonContainer } from './custom-button.styles';
 
 export type TCustomButton = {
+  type?: 'submit' | 'button';
   children?: string;
   isGoogleSignIn?: boolean;
   inverted?: boolean;
+  onClick?: any;
 };
 
 const CustomButton: FC<TCustomButton> = (props) => {
-  console.log(props.children)
-  return (
-    <CustomButtonContainer {...props}>{props.children}</CustomButtonContainer>
-  );
-}
+  return <CustomButtonContainer {...props}>{props.children}</CustomButtonContainer>;
+};
 
-export default CustomButton;
+export default memo(CustomButton);

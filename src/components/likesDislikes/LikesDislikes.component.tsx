@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { FC, useState, memo } from 'react';
 
-import { LikesDislikesContainer, DislikeButton, LikesDislikesAmount, LikeButton } from './LikesDislikes.styled';
+import {
+  LikesDislikesContainer,
+  DislikeButton,
+  LikesDislikesAmount,
+  LikeButton,
+} from './LikesDislikes.styled';
 
-const LikesDislikes = ({ likesCount }) => {
+interface LikesDislikes {
+  likesCount: number;
+}
+
+const LikesDislikes: FC<LikesDislikes> = ({ likesCount }) => {
   const [likesCountState, setLikesCountState] = useState(likesCount);
-  
+
   return (
     <LikesDislikesContainer>
       <DislikeButton onClick={() => setLikesCountState(likesCountState - 1)}>-</DislikeButton>
@@ -14,4 +23,4 @@ const LikesDislikes = ({ likesCount }) => {
   );
 };
 
-export default LikesDislikes;
+export default memo(LikesDislikes);

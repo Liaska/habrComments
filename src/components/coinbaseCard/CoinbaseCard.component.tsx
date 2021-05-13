@@ -1,40 +1,49 @@
-// https://api-public.sandbox.pro.coinbase.com/products/BTC-USD/trades
-// https://api-public.sandbox.pro.coinbase.com/currencies
-// https://pro.coinbase.com/trade/USDT-USD
-// https://api-public.sandbox.pro.coinbase.com/products/BTC-USD/candles?granularity=86400
-
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, memo, useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
 import { CoinbaseCardWrapper } from './CoinbaseCard.styles';
 
-const CoinbaseCard = ({ id, base_currency }) => {
-  const [price, setPrice] = useState();
-  const [yearBoost, setYearBoost] = useState();
-  const [coinData, setCoinData] = useState();
+interface ICoinbaseCard {
+  id: number;
+  base_currency: string;
+}
 
-  const chartRef = useRef(null);
+type TCoinData = number[][] | null;
 
-  useEffect(async () => {
-    const fetchCoinData = await fetch(
-      `https://api-public.sandbox.pro.coinbase.com/products/${id}/candles?granularity=86400`
-    );
-    const json = await fetchCoinData.json();
-    setCoinData(json);
-    if (json) {
-      setPrice(json[0][4].toFixed(2));
-      setYearBoost((json[json.length - 1][4].toFixed(2) / json[0][4].toFixed(2)).toFixed(2) * 100);
-    }
+const CoinbaseCard: FC<ICoinbaseCard> = ({ id, base_currency }) => {
+  const [price, setPrice] = useState<number | null>(null);
+  const [yearBoost, setYearBoost] = useState<number | null>(null);
+  const [coinData, setCoinData] = useState<TCoinData>(null);
+
+  const chartRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const fetchCoinData = async (): Promise<void> => {
+      const data = await fetch(
+        `https://api-public.sandbox.pro.coinbase.com/products/${id}/candles?granularity=86400`
+      );
+      const json: number[][] = await data.json();
+
+      if (json) {
+        let lastTrade = Number(json[0][4].toFixed(2));
+        let latestTrade = Number(json[json.length - 1][4].toFixed(2));
+
+        setCoinData(json);
+        setPrice(lastTrade);
+        setYearBoost(Number((latestTrade / lastTrade).toFixed(2)) * 100);
+      }
+    };
+    fetchCoinData();
   }, []);
 
   useEffect(() => {
-    if (!coinData) {
+    if (!coinData || !chartRef.current) {
       return;
     }
     const coinDataReverse = coinData.reverse();
-    
+
     const data = {
-      labels: coinDataReverse.reduce((acc, coinInfo, index) => {
+      labels: coinDataReverse.reduce((acc:string[], coinInfo, index) => {
         if (coinData.length > 40) {
           if (index % 7 === 0) {
             acc.push(new Date(coinInfo[0] * 1000).toLocaleDateString());

@@ -2,11 +2,27 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IAsyncState } from '../InterfacesAndTypes';
 
 export interface coinbaseCurrencies {
-  [index: string]: string | boolean;
+  id: string;
+  base_currency: string;
+  quote_currency: string;
+  base_min_size: string;
+  base_max_size: string;
+  quote_increment: string;
+  base_increment: string;
+  display_name: string;
+  min_market_funds: string;
+  max_market_funds: string;
+  margin_enabled: boolean;
+  post_only: boolean;
+  limit_only: boolean;
+  cancel_only: boolean;
+  trading_disabled: boolean;
+  status: string;
+  status_message: string;
 }
 
 export interface ICoinbase extends IAsyncState {
-  collection: null | coinbaseCurrencies[],
+  collection: null | coinbaseCurrencies[];
 }
 
 export const fetchCoinbaseData = createAsyncThunk<coinbaseCurrencies[]>(

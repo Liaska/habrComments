@@ -12,6 +12,131 @@ import {
   TechnologyTypes,
 } from './Technology.styles';
 
+interface IConfig {
+  [key: string]: ConfigBasement[];
+}
+
+const config: IConfig = {
+  js: [
+    {
+      name: 'React',
+      color: '#1289a5',
+      info: 'A JavaScript library for building user interfaces',
+      fullName: 'ReactJS',
+      publishDate: 'May 29, 2013',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png',
+    },
+    {
+      name: 'Angular',
+      color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
+      info: "The modern web developer's platform",
+      fullName: 'AngularJS',
+      publishDate: 'Sep 14,  2016',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/1200px-Angular_full_color_logo.svg.png',
+    },
+    {
+      name: 'Vue',
+      color: '#81ac79',
+      info: 'The Progressive JavaScript Framework',
+      fullName: 'Vue.js',
+      publishDate: 'February 2014',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png',
+    },
+  ],
+  css: [
+    {
+      name: 'Less',
+      color: '#61dafb',
+      info: 'A JavaScript library for building user interfaces',
+      fullName: 'ReactJS',
+      publishDate: 'May 29, 2013',
+    },
+    {
+      name: 'Sass',
+      color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
+      info: "The modern web developer's platform",
+      fullName: 'AngularJS',
+      publishDate: 'Sep 14,  2016',
+    },
+    {
+      name: 'PostCSS',
+      color: '#42b983',
+      info: 'The Progressive JavaScript Framework',
+      fullName: 'Vue.js',
+      publishDate: 'February 2014',
+    },
+  ],
+  html: [
+    {
+      name: 'Pug',
+      color: '#61dafb',
+      info: 'A JavaScript library for building user interfaces',
+      fullName: 'ReactJS',
+      publishDate: 'May 29, 2013',
+    },
+    {
+      name: 'HandleBars',
+      color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
+      info: "The modern web developer's platform",
+      fullName: 'AngularJS',
+      publishDate: 'Sep 14,  2016',
+    },
+    {
+      name: 'Smarty',
+      color: '#42b983',
+      info: 'The Progressive JavaScript Framework',
+      fullName: 'Vue.js',
+      publishDate: 'February 2014',
+    },
+  ],
+  db: [
+    {
+      name: 'Postgres',
+      color: '#61dafb',
+      info: 'A JavaScript library for building user interfaces',
+      fullName: 'ReactJS',
+      publishDate: 'May 29, 2013',
+    },
+    {
+      name: 'MySQL',
+      color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
+      info: "The modern web developer's platform",
+      fullName: 'AngularJS',
+      publishDate: 'Sep 14,  2016',
+    },
+    {
+      name: 'MongoDB',
+      color: '#42b983',
+      info: 'The Progressive JavaScript Framework',
+      fullName: 'Vue.js',
+      publishDate: 'February 2014',
+    },
+  ],
+  vsc: [
+    {
+      name: 'Git',
+      color: '#61dafb',
+      info: 'A JavaScript library for building user interfaces',
+      fullName: 'ReactJS',
+      publishDate: 'May 29, 2013',
+    },
+    {
+      name: 'Mercury',
+      color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
+      info: "The modern web developer's platform",
+      fullName: 'AngularJS',
+      publishDate: 'Sep 14,  2016',
+    },
+    {
+      name: 'SubVersion',
+      color: '#42b983',
+      info: 'The Progressive JavaScript Framework',
+      fullName: 'Vue.js',
+      publishDate: 'February 2014',
+    },
+  ],
+};
+
 interface ConfigBasement {
   name: string;
   color: string;
@@ -26,135 +151,9 @@ interface ConfigState extends ConfigBasement {
   toggle: boolean;
 }
 
-interface IConfig {
-  [key: string] : ConfigBasement[]
-}
-
 const Technology: FC<any> = (props) => {
   const technology: string = props.match.params.technology;
-
-  const config:IConfig = {
-    js: [
-      {
-        name: 'React',
-        color: '#1289a5',
-        info: 'A JavaScript library for building user interfaces',
-        fullName: 'ReactJS',
-        publishDate: 'May 29, 2013',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png',
-      },
-      {
-        name: 'Angular',
-        color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
-        info: "The modern web developer's platform",
-        fullName: 'AngularJS',
-        publishDate: 'Sep 14,  2016',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/1200px-Angular_full_color_logo.svg.png',
-      },
-      {
-        name: 'Vue',
-        color: '#81ac79',
-        info: 'The Progressive JavaScript Framework',
-        fullName: 'Vue.js',
-        publishDate: 'February 2014',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png',
-      },
-    ],
-    css: [
-      {
-        name: 'Less',
-        color: '#61dafb',
-        info: 'A JavaScript library for building user interfaces',
-        fullName: 'ReactJS',
-        publishDate: 'May 29, 2013',
-      },
-      {
-        name: 'Sass',
-        color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
-        info: "The modern web developer's platform",
-        fullName: 'AngularJS',
-        publishDate: 'Sep 14,  2016',
-      },
-      {
-        name: 'PostCSS',
-        color: '#42b983',
-        info: 'The Progressive JavaScript Framework',
-        fullName: 'Vue.js',
-        publishDate: 'February 2014',
-      },
-    ],
-    html: [
-      {
-        name: 'Pug',
-        color: '#61dafb',
-        info: 'A JavaScript library for building user interfaces',
-        fullName: 'ReactJS',
-        publishDate: 'May 29, 2013',
-      },
-      {
-        name: 'HandleBars',
-        color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
-        info: "The modern web developer's platform",
-        fullName: 'AngularJS',
-        publishDate: 'Sep 14,  2016',
-      },
-      {
-        name: 'Smarty',
-        color: '#42b983',
-        info: 'The Progressive JavaScript Framework',
-        fullName: 'Vue.js',
-        publishDate: 'February 2014',
-      },
-    ],
-    db: [
-      {
-        name: 'Postgres',
-        color: '#61dafb',
-        info: 'A JavaScript library for building user interfaces',
-        fullName: 'ReactJS',
-        publishDate: 'May 29, 2013',
-      },
-      {
-        name: 'MySQL',
-        color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
-        info: "The modern web developer's platform",
-        fullName: 'AngularJS',
-        publishDate: 'Sep 14,  2016',
-      },
-      {
-        name: 'MongoDB',
-        color: '#42b983',
-        info: 'The Progressive JavaScript Framework',
-        fullName: 'Vue.js',
-        publishDate: 'February 2014',
-      },
-    ],
-    vsc: [
-      {
-        name: 'Git',
-        color: '#61dafb',
-        info: 'A JavaScript library for building user interfaces',
-        fullName: 'ReactJS',
-        publishDate: 'May 29, 2013',
-      },
-      {
-        name: 'Mercury',
-        color: 'linear-gradient(90deg, #dd0031 0%, #cc3838 50%)',
-        info: "The modern web developer's platform",
-        fullName: 'AngularJS',
-        publishDate: 'Sep 14,  2016',
-      },
-      {
-        name: 'SubVersion',
-        color: '#42b983',
-        info: 'The Progressive JavaScript Framework',
-        fullName: 'Vue.js',
-        publishDate: 'February 2014',
-      },
-    ],
-  };
-
-  const technologyArray = config[technology]
+  const technologyArray = config[technology];
 
   const [configState, setConfigState] = useState<ConfigState>({
     ...technologyArray[0],

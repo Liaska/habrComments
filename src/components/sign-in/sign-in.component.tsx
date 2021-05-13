@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import FormInput from '../form-input/form-input.component';
@@ -13,7 +13,7 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const history = useHistory();
 
-  const submitForm = async (event) => {
+  const submitForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       await auth.signInWithEmailAndPassword(email, password);

@@ -10,3 +10,9 @@ export type TCommentsData = {
   likes?: number;
   children: TCommentsData | [];
 }[];
+
+export type TUser = {
+  email: string;
+  displayName?: string;
+  createdAt: number;
+};

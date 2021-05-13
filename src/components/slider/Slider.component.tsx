@@ -1,12 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, FC, ComponentProps, useMemo } from 'react';
+import { coinbaseCurrencies } from '../../redux/coinbase/coinbaseSlice';
 
 import { SliderContainer, SliderWrapper, SliderBack, SliderNext } from './Slider.styles';
 
-const Slider = ({ slides, SlideComponent }) => {
+interface ISlider {
+  slides: any[];
+  Slide: React.FC<any>;
+}
+
+const Slider: FC<ISlider> = ({ slides, Slide }) => {
   const [left, setLeft] = useState(0);
   const [transformLeft, setTransformLeft] = useState(0);
-  const [touchStart, setTouchStart] = useState();
-  const divRef = useRef();
+  const [touchStart, setTouchStart] = useState(0);
+  const divRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   const nextSlide = () => {
     if (left === (slides.length - 1) * -100) return;
@@ -18,16 +24,21 @@ const Slider = ({ slides, SlideComponent }) => {
     setLeft(left + 100);
   };
 
-  const moveSlider = (event, eventType = event.clientX) => {
-    if (touchStart - eventType < -50 || touchStart - eventType > 50) {
-      return false;
-    }
-    setTransformLeft(-touchStart + eventType);
-  };
-
   const transformZero = () => {
     setTransformLeft(0);
   };
+
+  const MemoSLIDES = useMemo(
+    () =>
+      slides.map((slide) => {
+        return (
+          <div key={`${slide.id}`} style={{ padding: '15px', minWidth: '100%' }}>
+            <Slide {...slide}></Slide>
+          </div>
+        );
+      }),
+    slides
+  );
 
   return (
     <SliderContainer
@@ -53,7 +64,14 @@ const Slider = ({ slides, SlideComponent }) => {
         }
         transformZero();
       }}
-      onTouchMove={(event) => moveSlider(event, event.changedTouches[0].clientX)}
+      onTouchMove={(event) => {
+        if (
+          touchStart - event.changedTouches[0].clientX < -50 ||
+          touchStart - event.changedTouches[0].clientX > 50
+        ) {
+          return false;
+        }
+      }}
       onWheel={(event) => {
         if (event.deltaY < 0) {
           prevSlide();
@@ -69,14 +87,7 @@ const Slider = ({ slides, SlideComponent }) => {
           left: `${left}%`,
           transform: `translateX(${transformLeft}px)`,
         }}>
-        {slides.length > 0 &&
-          slides.map((slide) => {
-            return (
-              <div key={slide.id} style={{ padding: '15px', minWidth: '100%' }}>
-                <SlideComponent {...slide}></SlideComponent>
-              </div>
-            );
-          })}
+        {MemoSLIDES}
       </SliderWrapper>
       <SliderNext onClick={nextSlide}>&#5125;</SliderNext>
     </SliderContainer>
